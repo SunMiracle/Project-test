@@ -1,12 +1,564 @@
+
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>project</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+<html lang="zh" class="loading">
+<head>
+	<title>Barkadahan sa SmarTone</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+	<!-- inc part 01 -->
+	<meta property="og:image" content="/service-site/BSS/img/common/Picture1.png"/>
+	<meta property="og:image:type" content="image/png"/>
+	<meta property="og:image:secure_url" content="/service-site/BSS/img/common/Picture1.png"/>
+
+	<link rel="icon" type="image/x-icon" href="/service-site/BSS/img/common/Picture1.png">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" />
+	<link rel="stylesheet" href="/service-site/BSS/css/bootstrap.css" />
+	<link rel="stylesheet" href="/service-site/BSS/css/swiper.min.css" />
+	<link rel="stylesheet" href="/service-site/BSS/css/animate.css" />
+
+	<link rel="stylesheet" href="/service-site/BSS/css/style.css"/>
+	<link rel="stylesheet" href="/service-site/BSS/css/style_desktop.css?v=20170928" />
+
+	<script src="/service-site/BSS/js/jquery-3.3.1.min.js"></script>
+	<script src="/service-site/BSS/js/jquery.lazyload.min.js"></script>
+	<script src="/service-site/BSS/js/swiper.min.js"></script>
+	<!-- <script src="/service-site/BSS/js/bootstrap.js"></script> -->
+	<script src="/service-site/BSS/js/Vue.js"></script>
+
+	<!-- scrollme -->
+	<script src="/service-site/BSS/js/jquery.scrollme.min.js"></script>
+	<script src="/service-site/BSS/js/jquery.scrollme.js"></script>
+
+	<!-- icon front -->
+	<link href="/service-site/BSS/css/iconfont.css" rel="stylesheet" />
+
+	<!-- icon moon -->
+	<link href="/service-site/BSS/css/icomoon.css" rel="stylesheet">
+
+	<script type="text/javascript">
+		var click_scroll = true;
+		var scrolltop_s = $(window).height();
+		var width_s = $(window).width();
+		var slidetop_s = $(window).scrollTop();
+
+		$(function(){
+			var website_link = location.pathname.substring(location.pathname.lastIndexOf("/")+1);
+			$("header ul li a").each(function(){
+				if($(this).attr("href") == website_link){
+					$(this).css("color","#ab3434");
+				}
+			});
+			if(width_s > 960){
+				scroll_to_top(960);
+			} else {
+				scroll_to_top(width_s * 0.94);
+				/* any table width */
+				$(".mobile_scroll_x").each(function(){
+					var table_width = $(this).children("table");
+					console.log(table_width.outerHeight());
+					var right_img = "<img class='table_right' src=\"/service-site/BSS/img/common/btn_right.png\" style='margin-top:" + (table_width.outerHeight()/2-30) + "px'>";
+					var left_img = "<img class='table_left' src=\"/service-site/BSS/img/common/btn_left.png\" style='margin-top:" + (table_width.outerHeight()/2-30) + "px'>";
+
+					if($(table_width).width() > $(this).width()+10){
+						$(this).before(right_img);
+						var table_left_sild = $(this);
+						$($(this).prev(".table_right")).on("click",function(){
+
+							$(table_left_sild).scrollLeft(($(table_left_sild).scrollLeft() + 50));
+							if($(this).next(".table_left").css("display") == "none"){
+								$(this).next(".table_left").css("display","inline");
+							}
+							if( 0 <=  ($(table_left_sild).width()-$(table_width).width() + $(table_left_sild).scrollLeft())){
+								$(this).css("display","none");
+							}
+
+						});
+						$(this).before(left_img);
+						$($(this).prev(".table_left")).on("click",function(){
+							$(table_left_sild).scrollLeft(($(table_left_sild).scrollLeft()-50));
+							if($(this).prev(".table_right").css("display") == "none"){
+								$(this).prev(".table_right").css("display","inline");
+							}
+							if( $(table_left_sild).scrollLeft() == 0){
+								$(this).css("display","none");
+							}
+
+						});
+					}
+				});
+				/* mobile phone menu */
+				var mobile_menu = function(){
+					$(".nav_menu span").each(function(index,value){
+						console.log($(this).hasClass("active"));
+						if($(this).hasClass("active") == true) {
+							$(this).removeClass("active");
+						} else {
+							$(this).addClass("active");
+						}
+					});
+					if( $("header section ul").css("display") == "none" ){
+						$("header section ul").css("display","block");
+						$("header section ul").animate({
+							opacity: 1
+						},50);
+						$("body").css({"overflow":"hidden"});
+					} else {
+						$("header section ul").css({"display":"none","opacity":0});
+						$("body").css({"overflow":"inherit"});
+					}
+				};
+
+				$(".nav_menu").on("click",function(){
+					//console.log(this);
+					mobile_menu();
+				});
+			}
+			/* scroll function */
+			function slidetop() {
+				slidetop_s = $(window).scrollTop();
+				var scrollTop = $(window)[0].pageYOffset;
+
+				if(click_scroll){
+					if(scrollTop == 0){
+						slidetop_close();
+					} else if( $("#backtotop-silde--top").css("opacity") == 0 && (slidetop_s > 50) ){
+						$("#backtotop-silde--top").animate({
+							bottom: "20px",
+							opacity: 0.66
+						},300);
+						$("#backtotop-silde--top .left").animate({
+							top: "17px"
+						},300);
+						$("#backtotop-silde--top .right").animate({
+							top: "17px"
+						},300);
+						$("#backtotop-silde--top .center").animate({
+							top: "23px"
+						},300);
+					}
+				}
+			}
+			$("#backtotop-silde--top").on("click",function(){
+				// javascript to get the window size of the source code
+				//var slidetop_s = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+				//var scrolltop_s = window.innerHeight || document.documentElement.clientHeight;
+				if( slidetop_s < scrolltop_s){
+					slidetop_s = 500;
+				}else{
+					slidetop_s = 800;
+				}
+				$("html,body").animate({
+					scrollTop:0
+				},slidetop_s);
+				slidetop_close();
+				click_scroll = false;
+				setTimeout(function(){
+					click_scroll = true;
+				},slidetop_s + 10)
+			});
+			$(window).on("scroll",function(){
+				slidetop();
+			});
+			$("#backtotop-silde--top div").on("click",slidetop());
+			//start window position if show button
+			slidetop();
+
+			try {
+				$("img.lazy").lazyload();
+			} catch (error) {
+				console.log(error);
+			}
+		});
+		function scroll_to_top(result){
+			$("#backtotop-silde--top").css("right", (width_s - result)/2 + 10 + "px");
+		}
+		function slidetop_close(){
+			$("#backtotop-silde--top").animate({
+				bottom: "0px",
+				opacity: 0
+			});
+			$("#backtotop-silde--top .left").animate({
+				top: "-17px"
+			},300);
+			$("#backtotop-silde--top .right").animate({
+				top: "-17px"
+			},300);
+			$("#backtotop-silde--top .center").animate({
+				top: "125%"
+			},300);
+		}
+		function dropSwitchOne(){
+			$("#phone-mode-product-switch").toggle();
+		}
+		function dropSwitchTwe(){
+			$("#phone-mode-recharge-switch").toggle();
+		}
+	</script>
+
+	<!-- end -->
+
+	<link rel="stylesheet" type="text/css" href="/service-site/BSS/css/index.css"/>
+	<link rel="stylesheet" type="text/css" href="/service-site/BSS/css/animate.css"/>
+	<link rel="stylesheet" type="text/css" href="/service-site/BSS/css/owl.carousel.css"/>
+</head>
+
+<body>
+	<!-- part 02 -->
+	<header>
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-20788189-18', 'auto');
+			ga('send', 'pageview');
+		</script>
+		<section id="example-1">
+			<div class="nav_menu">
+				<span v-for="todo in menu" :class="todo.class"></span>
+			</div>
+			<div class="site-logo">
+				<a href="/service-site/BSS/view/english/index.html" target="_self"><img v-bind:src="img"></a>
+			</div>
+			<ul>
+				<li v-for="item in items" v-html="item.message">  </li>
+				<!-- iphone  -->
+				<li class="follow-us" style="border-bottom:0px;line-height: 0.5;">
+					<a>Follow Us</a>
+					<div class="row">
+						<div class="col-xs-4" style="padding: 0px 10px 0px 30%;"><a href="https://www.facebook.com/barkadahansasmartone/"><img style="width:60px;height:60px" src="/service-site/BSS/img/common/icon_facebook.png"></a></div>
+						<div class="col-xs-4" style="padding: 0px 10px 0px 10px;"><a href="https://www.youtube.com/user/hkbarkadahan"><img style="width:60px;height:60px" src="/service-site/BSS/img/common/icon_youtube.png"></a></div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4" style="padding:10px 10px 10px 10%;"><a href="https://wap.smartone.com/bssapp/"><img style="width:60px;height:60px" src="/service-site/BSS/img/common/smarTone.png"></a></div>
+						<div class="col-xs-4"style="padding: 20px 5px 5px 5px"><a href="https://apps.apple.com/hk/app/my-sim-account/id1414787657?l=en"><img src="/service-site/BSS/img/common/app_store.png"></a></div>
+						<div class="col-xs-4" style="padding:20px 5px 5px 5px" ><a href="https://play.google.com/store/apps/details?id=com.smartone.mysimaccount"><img src="/service-site/BSS/img/common/google.png"></a></div>
+					</div>
+				</li>
+			</ul>
+		</section>
+		<div class="col-sm-3"></div>
+		<div class="col-sm-3"></div>
+		<div class="col-sm-3"></div>
+		<div class="col-sm-3"></div>
+		<div style="clear: both;"></div>
+	</header>
+	<!-- header -->
+	<div id="backtotop-silde--top" class="shake-top_func">
+		<div>
+			<span class="left"></span>
+			<span class="right"></span>
+			<span class="center"></span>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var header_nav = new Vue({
+			el:'#example-1',
+			data: {
+				img:"/service-site/BSS/img/common/bss_logo.png",
+				imageSwichPc: true,
+				imageSwichPhone: false,
+				items:[
+					{ message: '<a href=\ "product.html\">Our Product</a><span class="phone-mode" style="margin-left: 55px;" onclick="dropSwitchOne()">&or;</span><div id="phone-mode-product-switch" style="display:none"><p style="margin-top:10px;"><a href=\ "product.html#SIM_4G_LTE_Bayar-per-pemakaian\"><spen class="icon-icomoon-4G"></spen>4G LTE Pay-per-use SIM</a></p><p style="margin-top:10px"><a href=\ "product.html#Data_Plan_Service\"><spen class="icon-icomoon-dataplan"></spen>Data Plan Service</a></p><p style="margin-top:10px"><a href=\ "product.html#Call_Charges\"><spen class="icon-icomoon-call"></spen>Call Charges</a></p><p style="margin-top:10px"><a href=\ "product.html#SMS/MMS\"><spen class="icon-icomoon-sms"></spen>SMS/MMS</a></p><p style="margin-top:10px"><a href=\ "product.html#Roaming\"><spen class="icon-icomoon-roaming"></spen>Roaming</a></p><p style="margin-top:10px"><a href=\ "product.html#Load Transfer\"><spen class="icon-swap_horiz"></spen>Load Transfer</a></p></div>' },
+					{ message: '<a href=\ "recharge.html\">How to Recharge</a><span class="phone-mode" style="margin-left: 30px;" onclick="dropSwitchTwe()">&or;</span><div id="phone-mode-recharge-switch" style="display:none"><p style="margin-top:10px"><a href=\ "recharge.html#Recharge_Voucher\">Recharge Voucher</a></p><p style="margin-top:10px"><a href=\ "recharge.html#Octopus_App\">Octopus App</a></p><p style="margin-top:10px"><a href=\ "recharge.html#WeChat_Pay(Hong_Kong_Wallet)\">WeChat Pay (Hong Kong Wallet)</a></p><p style="margin-top:10px"><a href=\ "recharge.html#Electronic_Recharge_Voucher\">Electronic Recharge Voucher</a></p><p style="margin-top:10px"><a href=\ "recharge.html#Ec2Home\">Ec2Home</a></p><p style="margin-top:10px"><a href=\ "https://myaccount.smartone.com/jsp/ir/ir_simple_login.jsp?language=E\" onclick="display_switch()">Credit Card Top Up</a></p></div>' },
+					{ message: '<a href=\"service.html\">Apps & Services</a>' },
+					{ message: '<a href=\"contact.html\">Contact Us</a>' },
+					// { message: '<a href=\ "product.html\">Our Product</a><span class="phone-mode" style="margin-left: 55px;" onclick="dropSwitchOne()">&or;</span><div id="phone-mode-product-switch" style="display:none"><p style="margin-top:10px;"><a href=\ "product.html#SIM_4G_LTE_Bayar-per-pemakaian\">4G LTE Pay-per-use SIM</a></p><p style="margin-top:10px"><a href=\ "product.html#Data_Plan_Service\">Data Plan Service</a></p><p style="margin-top:10px"><a href=\ "product.html#Call_Charges\">Call Charges</a></p><p style="margin-top:10px"><a href=\ "product.html#SMS/MMS\">SMS/MMS</a></p><p style="margin-top:10px"><a href=\ "product.html#Roaming\">Roaming</a></p><p style="margin-top:10px"><a href=\ "product.html#Load Transfer\">Load Transfer</a></p></div>' },
+					// { message: '<a href=\ "recharge.html\">How to Recharge</a><span class="phone-mode" style="margin-left: 30px;" onclick="dropSwitchTwe()">&or;</span><div id="phone-mode-recharge-switch" style="display:none"><p style="margin-top:10px"><a href=\ "recharge.html#Octopus_App\">Octopus App</a></p><p style="margin-top:10px"><a href=\ "recharge.html#WeChat_Pay(Hong_Kong_Wallet)\">WeChat Pay (Hong Kong Wallet)</a></p><p style="margin-top:10px"><a href=\ "recharge.html#Electronic_Recharge_Voucher\">Electronic Recharge Voucher</a></p><p style="margin-top:10px"><a href=\ "recharge.html#Ec2Home\">Ec2Home</a></p></div>' },
+					// { message: '<a href=\"service.html\">Apps & Services</a>' },
+					// { message: '<a href=\"contact.html\">Contact Us</a>' },
+				],
+				menu:[
+					{ class: 'top' },
+					{ class: 'center' },
+					{ class: 'bottom' }
+				]
+			}
+		});
+	</script>
+	<!-- end -->
+
+	<div class="home_banner">
+		<p class="topBannerTitle">No. 1 Mostly Used Network by OFW in Hong Kong*</p>
+		<section class="owl-banner">
+			<div class="owl-carousel owl-theme">
+				<div class="item">
+					<img src="/service-site/BSS/img/main_banner/bss_main_banner/common/banner_bg.jpg" style="width:100%;position: relative;max-height: 500px;" />
+					<div style="max-width: 958px;position: absolute;top: 0%;left:  0%;right:  0%;margin:  auto;">
+						<img class="img-animation owl-lazy" data-src="	/service-site/BSS/img/main_banner/bss_main_banner/philippines/banner_text_1.png" data-animation="jackInTheBox" />
+						<img class="img-animation owl-lazy" data-src="/service-site/BSS/img/main_banner/bss_main_banner/philippines/banner_text_3.png" data-animation="bounceInRight" />
+						<img class="img-animation owl-lazy" data-src="	/service-site/BSS/img/main_banner/bss_main_banner/philippines/banner_text_2.png" data-animation="bounce" />
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<section class="Container_body">
+		<div class="Container_center">
+			<p><strong class="remarkFontSize">*According to Anova December 2018 foreign worker prepaid card survey</strong></p>
+			<div class="swiper-container">
+			    <div class="swiper-wrapper swiper_img">
+					<div class="swiper-slide" v-for="item in items">
+						<a v-bind:href="item.link" v-if="item.link!=''"><img v-bind:src="item.message" width="100%" height="100%"></a>
+						<img v-bind:src="item.message" v-else width="100%" height="100%">
+
+					</div>
+			    </div>
+			    <!-- Add Pagination -->
+			    <div class="swiper-pagination"></div>
+			    <!-- Add Arrows -->
+			    <div class="swiper-button-next"></div>
+			    <div class="swiper-button-prev"></div>
+		    </div>
+		    <table width="100%">
+		    	<tr>
+		    		<td><a href="service.html"><img src="/service-site/BSS/img/small_banner/JOOX_BSS.png"></a></td>
+		    		<td width="20px"></td>
+		    		<td><a href="https://www.smartone.com/en/services_and_apps/google_play/charges.jsp"><img src="/service-site/BSS/img/small_banner/Google_Billing.jpg"></a></td>
+		    	</tr>
+					<tr>
+						<td class="home-banner-colspan" colspan="3">
+							<a href="service.html"><img class="mobile-banner" data-src="/service-site/BSS/img/small_banner/idd_pass.jpg"></a>
+						</td>
+					</tr>
+					<tr>
+						<td class="home-banner-colspan" colspan="3">
+							<a href="product.html">
+								<img class="mobile-banner" data-src="/service-site/BSS/img/small_banner/Family_Data_Plan.jpg">
+							</a>
+						</td>
+					</tr>
+			</table>
+			<!-- window  -->
+			<div class="window-mode">
+				<p style="text-align:center;margin-Top:20px">Follow Us</p>
+				<div class="row">
+					<div class="col-xs-4" style="padding:10px 20px 0px 42%"><a href="https://www.facebook.com/barkadahansasmartone/"><img width="60" src="/service-site/BSS/img/common/icon_facebook.png"></a></div>
+					<div class="col-xs-4" style="padding:10px 20px 0px 20px"><a href="https://www.youtube.com/user/hkbarkadahan"><img width="60" src="/service-site/BSS/img/common/icon_youtube.png"></a></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4" style="padding:10px 10px 10px 34%"><a href="https://wap.smartone.com/bssapp/"><img width="60" src="/service-site/BSS/img/common/smarTone.png"></a></div>
+					<div class="col-xs-4" style="padding:20px 5px 0px 5px"><a href="https://apps.apple.com/hk/app/my-sim-account/id1414787657?l=en"><img src="/service-site/BSS/img/common/app_store.png"></a></div>
+					<div class="col-xs-4" style="padding:20px 5px"><a href="https://play.google.com/store/apps/details?id=com.smartone.mysimaccount"><img src="/service-site/BSS/img/common/google.png"></a></div>
+				</div>
+			</div>
+			<!-- iphone  -->
+			<div class="phone-mode">
+				<p style="text-align:center;margin-Top:20px">Follow Us</p>
+				<div class="row">
+					<div class="col-xs-4" style="padding: 0px 10px 0px 32%;"><a href="https://www.facebook.com/barkadahansasmartone/"><img style="width:60px;height:60px" src="/service-site/BSS/img/common/icon_facebook.png"></a></div>
+					<div class="col-xs-4" style="padding: 0px 10px 0px 15px;"><a href="https://www.youtube.com/user/hkbarkadahan"><img style="width:60px;height:60px" src="/service-site/BSS/img/common/icon_youtube.png"></a></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4" style="padding:10px 10px 10px 14%;"><a href="https://wap.smartone.com/bssapp/"><img style="width:60px;height:60px" src="/service-site/BSS/img/common/smarTone.png"></a></div>
+					<div class="col-xs-4"style="padding: 20px 5px 5px 5px"><a href="https://apps.apple.com/hk/app/my-sim-account/id1414787657?l=en"><img src="/service-site/BSS/img/common/app_store.png"></a></div>
+					<div class="col-xs-4" style="padding:20px 5px 5px 5px" ><a href="https://play.google.com/store/apps/details?id=com.smartone.mysimaccount"><img src="/service-site/BSS/img/common/google.png"></a></div>
+				</div>
+			</div>
+	    </div>
+	</section>
+	<!-- part 03 -->
+	<footer>
+		<section class="Footer">
+			<p v-html="message"></p>
+		<div style="clear:both;"></div>
+		</section><!-- footer content -->
+	</footer><!-- footer -->
+	<script type="text/javascript">
+		var footer_content = new Vue({
+			el: '.Footer',
+			data: {
+				message: '&copy; 2020. All rights reserved. SmarTone Mobile Communications Limited.'
+			}
+		})
+	</script>
+	<!-- end -->
+	<script src="/service-site/BSS/js/owl.carousel.js"></script>
+	<script src="/service-site/BSS/js/owl.lazyload.js"></script>
+	<script type="text/javascript">
+		var swiper_img_src = null;
+		var swiper = null;
+		var owl = $(".owl-carousel");
+		$(document).ready(function(){
+			/* mobile banner*/
+			if($(window).width() <= 768){
+				$(".mobile-banner").each(function(){
+					var src = $(this).attr("data-src");
+					console.log(src);
+					src = src.replace(".jpg","_m.jpg");
+					console.log(src);
+					$(this).attr("src",src);
+				})
+			} else {
+				$(".mobile-banner").each(function(){
+					var src = $(this).attr("data-src");
+					$(this).attr("src",src);
+				})
+			}
+			/* swiper banner slide */
+			var shopnSaveLink="";
+			var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+			if(/android/i.test(userAgent)) {
+				shopnSaveLink="https://play.google.com/store/apps/details?id=com.smartone.shopnsave&hl=en";
+			} else if(/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream){
+				shopnSaveLink="https://play.google.com/store/apps/details?id=com.smartone.shopnsave&hl=en";
+			} else {
+				shopnSaveLink="https://play.google.com/store/apps/details?id=com.smartone.shopnsave&hl=en";
+			}
+
+				if ($(window).width() <= 768) {
+								swiper_img_src = new Vue({
+								el:'.swiper_img',
+								data:{
+									items:[
+						                { message: "/service-site/BSS/img/rotation_banner/bonus_banner_m.jpg",
+						                  link: "recharge.html" },					
+						                // { message: "/service-site/BSS/img/rotation_banner/SPoint_Banner_m.jpg",
+						                //   link: "service.html" },
+										{ message: "/service-site/BSS/img/rotation_banner/SPoint_Banner_m_2.jpg",
+						                  link: "service.html" },
+										  { message: "/service-site/BSS/img/rotation_banner/Unlimited_Data_Plan_with_SpeedPLUS_m.jpg?v=20200408",
+						                  link: "product.html" },  
+						                { message: "/service-site/BSS/img/rotation_banner/My_SIM_Account_m.jpg",
+						                  link: "service.html" },
+						                { message: "/service-site/BSS/img/rotation_banner/handset_discount_m.jpg",
+						                  link: "" },
+										{ message: "/service-site/BSS/img/rotation_banner/roaming_service_m.jpg",
+											link: "product.html" }
+									]
+								}
+					});
+
+						}else{
+							swiper_img_src = new Vue({
+								el:'.swiper_img',
+								data:{
+									items:[
+						                { message: "/service-site/BSS/img/rotation_banner/bonus_banner.jpg",
+						                  link: "recharge.html" },					
+						                // { message: "/service-site/BSS/img/rotation_banner/SPoint_Banner.jpg",
+						                //   link: "service.html" },
+										{ message: "/service-site/BSS/img/rotation_banner/SPoint_Banner_2.jpg",
+											link: "service.html" },
+										{ message: "/service-site/BSS/img/rotation_banner/Unlimited_Data_Plan_with_SpeedPLUS.jpg?v=20200408",
+						                  link: "product.html" },	
+						                { message: "/service-site/BSS/img/rotation_banner/My_SIM_Account.jpg",
+						                  link: "service.html" },
+						                { message: "/service-site/BSS/img/rotation_banner/handset_discount.jpg",
+						                  link: "" },
+										{ message: "/service-site/BSS/img/rotation_banner/roaming_service.jpg",
+						                  link: "product.html" },  
+									]
+								}
+					});
+
+						}
+
+
+
+			swiper = new Swiper('.swiper-container', {
+				slidesPerView: 1,
+				autoplay:true,
+				loop:true,
+				spaceBetween:30,
+				// speed:500,
+				// onSlideChangStart: function(){
+
+				// },
+				pagination: {
+					el: '.swiper-pagination',
+					clickable: true
+				},
+				navigation: {
+					nextEl: '.swiper-button-next',
+					prevEl: '.swiper-button-prev'
+				},
+			});
+
+
+
+			/*var owl_active_load = function(event){
+				this.Total_img = function(){
+
+				}
+			}*/
+			var img_animation_load = $(".img-animation").length;
+			owl.owlCarousel({
+				items: 1,
+				animateIn: true,
+				lazyLoad: true,
+				onInitialized :function(event){
+					console.log("start");
+					owl = event;
+					$(".img-animation").css("display","none");
+				},
+				onLoadedLazy:function(event){
+					img_animation_load--;
+					if(!img_animation_load){
+						$(".img-animation").css("display","inherit");
+						$(".img-animation").each(function(){
+							$(this).addClass($(this).attr('data-animation'));
+						});
+						$(".img-animation").addClass("animated");
+
+					}
+				}
+			});
+
+
+			/*
+				document.getElementsByClassName("Container_body")[0].children[0].onload = function(){
+					animation_img[0] = true;
+					var animation = new Boolean(true);
+					animation_img.forEach(function(key){
+						if(key == false){ animation = false ; return; }
+					});
+					if(animation) animation_banner();
+				}
+				document.getElementsByClassName("Container_body")[0].children[1].onload = function(){
+					animation_img[1] = true;
+					var animation = new Boolean(true);
+					animation_img.forEach(function(key){
+						if(key == false){ animation = false ; }
+					});
+					if(animation) animation_banner();
+				}
+			*/
+			var animation_img = new Array(document.getElementsByClassName("Container_body")[0].children.length);
+			var img = new Array(document.getElementsByClassName("Container_body")[0].children.length);
+			for(var i = 0; i < animation_img.length; i++){
+				animation_img[i] = false;
+			}
+			var img_i = 0 ;
+			for(var i = 0; i < img.length; i ++){
+				img[i] = new Image();
+				img[i].onload = function(event){
+					animation_img[img_i] = true;
+					img_i ++;
+					var animation = true;
+					animation_img.forEach(function(key){
+						if(key != true){
+							 animation = false ;
+							 return;
+						}
+					});
+					if(animation)	animation_banner();
+				}
+				img[i].src =	document.getElementsByClassName("Container_body")[0].children[i].src;
+			}
+
+			function animation_banner(){
+				$(".home_banner img:eq(0)").attr("class","home_banner_title");
+				setTimeout(function(){
+					$(".home_banner img:eq(1)").attr("class","home_banner_phoneprice");
+				},300);
+			}
+		})
+	</script>
+</body>
 </html>
